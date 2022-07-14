@@ -40,8 +40,10 @@ public class PlayerController : MonoBehaviour
     private void MovePlayerCamera()
     {
         rotation -= playerMouseInput.y * sensitivity;
+        if (rotation > 85f) rotation = 85f;
+        if (rotation < -85f) rotation = -85f;
 
-        playerCamera.transform.localRotation = Quaternion.Euler(Mathf.Clamp(rotation, -85f, 85f), 0f, 0f);
+        playerCamera.transform.localRotation = Quaternion.Euler(rotation, 0f, 0f);
         transform.Rotate(0f, playerMouseInput.x * sensitivity, 0f);
     }
 }
