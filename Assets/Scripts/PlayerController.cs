@@ -19,9 +19,10 @@ public class PlayerController : MonoBehaviour
     {
         playerBody = GetComponent<Rigidbody>();
         playerCamera = FindObjectOfType<Camera>().transform;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         playerMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         playerMouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
@@ -40,7 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         rotation -= playerMouseInput.y * sensitivity;
 
-        gameObject.transform.Rotate(0f, playerMouseInput.x * sensitivity, 0f);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotation, 0f, 0f);
+        playerCamera.transform.localRotation = Quaternion.Euler(Mathf.Clamp(rotation, -85f, 85f), 0f, 0f);
+        transform.Rotate(0f, playerMouseInput.x * sensitivity, 0f);
     }
 }
