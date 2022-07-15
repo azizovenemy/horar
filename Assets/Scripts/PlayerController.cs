@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         rotation -= playerMouseInput.y * sensitivity;
         if (rotation > 85f) rotation = 85f;
-        if (rotation < -60f) rotation = -60f;
+        if (rotation < -85f) rotation = -85f;
 
         playerCamera.transform.localRotation = Quaternion.Euler(rotation, 0f, 0f);
         transform.Rotate(0f, playerMouseInput.x * sensitivity, 0f);
