@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Space]
-    [SerializeField] private float speed;
     [SerializeField] private float sensitivity;
     [SerializeField] private float jumpForce;
     
@@ -14,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerBody;
     private float rotation;
     private Transform playerCamera;
+    
+    public float speed;
 
     private void Start()
     {

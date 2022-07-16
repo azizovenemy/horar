@@ -38,7 +38,10 @@ public class PlayerPickUp : MonoBehaviour
         }
         if(inHandItem != null)
         {
-            return;
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Drop();
+            }
         }
         if(Physics.Raycast(playerCamera.position, playerCamera.forward, 
             out hit, hitRange, pickableLayerMask))
@@ -65,27 +68,20 @@ public class PlayerPickUp : MonoBehaviour
             {
                 rb.isKinematic = true;
             }
-            return;
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Drop();
+            GetComponent<PlayerController>().speed = 1;
         }
     }
 
     private void Drop()
     {
-        print("can't drops");
-        if(inHandItem != null)
+        inHandItem.transform.SetParent(null);
+        Rigidbody rb = inHandItem.GetComponent<Rigidbody>();
+        inHandItem.GetComponent<Collider>().enabled = true;
+        if (rb != null)
         {
-            print("drops");
-            inHandItem.transform.SetParent(null);
-            inHandItem = null;
-            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-            }
+            rb.isKinematic = false;
         }
+        inHandItem = null;
+        GetComponent<PlayerController>().speed = 2;
     }
 }
