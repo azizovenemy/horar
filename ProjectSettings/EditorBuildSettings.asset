@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 437c139b305a98e48ad05021829aa1d8
+  - enabled: 1
+    path: Assets/Scenes/WatingRoom.unity
+    guid: b4db65f23cd063b45ba3fe0daca3edc0
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
