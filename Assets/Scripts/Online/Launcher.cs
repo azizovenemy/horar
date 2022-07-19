@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using UnityEngine.SceneManagement;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
     [SerializeField] private InputField roomNameConnecting;
     [SerializeField] private InputField roomNameCreating;
-    [SerializeField] private Text errorText;        //ошибка когда что-то с фотоном
+    [SerializeField] private Text errorText;        //ошибка когда что-то с фотоном (в отдельной панели)
     [SerializeField] private Text errorCreating;    //не введено название комнаты при создании
     [SerializeField] private Text errorConnecting;  //не введено название комнаты при подключении
 
@@ -19,6 +18,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         MenuManager.instance.OpenMenuPanel("loading");
         PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
     public override void OnConnectedToMaster()
     {
@@ -80,7 +80,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         MenuManager.instance.OpenMenuPanel("error");
         errorText.text = message;
     }
-    public override void OnCreatedRoom()
+    public override void OnJoinedRoom()
     {
         PhotonNetwork.LoadLevel(1);
     }

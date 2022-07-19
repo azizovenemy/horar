@@ -25,7 +25,7 @@ public class MenuManager : MonoBehaviourPunCallbacks
             }
         }
     }
-    void Start()
+    void Awake()
     {
         instance = this;   
     }
