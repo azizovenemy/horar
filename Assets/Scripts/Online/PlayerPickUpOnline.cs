@@ -34,65 +34,60 @@ public class PlayerPickUpOnline : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * hitRange, Color.red);
-        if (hit.collider != null)
+        if (view.IsMine)
         {
-            pickUpUI.SetActive(false);
-        }
-        if (inHandItem != null)
-        {
-            if (Input.GetKeyDown(KeyCode.R))
+            Debug.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * hitRange, Color.red);
+            if (hit.collider != null)
             {
-                view.RPC("Drop", RpcTarget.AllBuffered);
+                pickUpUI.SetActive(false);
             }
-        }
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward,
-            out hit, hitRange, pickableLayerMask))
-        {
-            pickUpUI.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.E))
+            if (inHandItem != null)
             {
-                view.RPC("PickUp", RpcTarget.AllBuffered);
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    Drop();
+                }
+            }
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward,
+                out hit, hitRange, pickableLayerMask))
+            {
+                pickUpUI.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    PickUp();
+                }
             }
         }
     }
 
-    [PunRPC]
     private void PickUp()
     {
-        if (view.IsMine)
-        {
         Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
-            if (hit.collider.GetComponent<Item>())
+        if (hit.collider.GetComponent<Item>())
+        {
+            inHandItem = hit.collider.gameObject;
+            inHandItem.transform.position = Vector3.zero;
+            inHandItem.transform.rotation = Quaternion.identity;
+            inHandItem.transform.SetParent(pickUpParent, false);
+            hit.collider.enabled = false;
+            if (rb != null)
             {
-                inHandItem = hit.collider.gameObject;
-                inHandItem.transform.position = Vector3.zero;
-                inHandItem.transform.rotation = Quaternion.identity;
-                inHandItem.transform.SetParent(pickUpParent, false);
-                hit.collider.enabled = false;
-                if (rb != null)
-                {
-                    rb.isKinematic = true;
-                }
-                GetComponent<PlayerControllerOnline>().speed = 1;
+                rb.isKinematic = true;
             }
+            GetComponent<PlayerControllerOnline>().speed = 1;
         }
     }
 
-    [PunRPC]
     private void Drop()
     {
-        if (view.IsMine)
+        inHandItem.transform.SetParent(null);
+        Rigidbody rb = inHandItem.GetComponent<Rigidbody>();
+        inHandItem.GetComponent<Collider>().enabled = true;
+        if (rb != null)
         {
-            inHandItem.transform.SetParent(null);
-            Rigidbody rb = inHandItem.GetComponent<Rigidbody>();
-            inHandItem.GetComponent<Collider>().enabled = true;
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-            }
-            inHandItem = null;
-            GetComponent<PlayerControllerOnline>().speed = 2;
+            rb.isKinematic = false;
         }
+        inHandItem = null;
+        GetComponent<PlayerControllerOnline>().speed = 2;
     }
 }
