@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
 using Photon.Pun;
 
-public class PlayerPickUpOnline : MonoBehaviourPunCallbacks
+public class PlayerPickUpOnline : MonoBehaviourPunCallbacks//, IPunObservable
 {
     [SerializeField]
     private GameObject pickUpUI;
@@ -43,7 +44,7 @@ public class PlayerPickUpOnline : MonoBehaviourPunCallbacks
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                view.RPC("Drop", RpcTarget.AllBuffered);
+                view.RPC("Drop", RpcTarget.AllBuffered, inHandItem.GetComponent<PhotonView>().ViewID);
             }
         }
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward,
@@ -52,39 +53,50 @@ public class PlayerPickUpOnline : MonoBehaviourPunCallbacks
             pickUpUI.SetActive(true);
             if (Input.GetKeyDown(KeyCode.E))
             {
-                view.RPC("PickUp", RpcTarget.AllBuffered);
+                inHandItem = hit.collider.gameObject;
+                view.RPC("PickUp", RpcTarget.AllBuffered, inHandItem.GetComponent<PhotonView>().ViewID, view.ViewID);
             }
         }
     }
 
     [PunRPC]
-    private void PickUp()
+    private void PickUp(int itemID, int playerId)
     {
         if (view.IsMine)
         {
-        Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
             if (hit.collider.GetComponent<Item>())
             {
-                inHandItem = hit.collider.gameObject;
-                inHandItem.transform.position = Vector3.zero;
-                inHandItem.transform.rotation = Quaternion.identity;
-                inHandItem.transform.SetParent(pickUpParent, false);
+
+                inHandItem.transform.parent = pickUpParent;
+                inHandItem.transform.localPosition = Vector3.zero;
+                inHandItem.transform.localRotation = Quaternion.identity;
                 hit.collider.enabled = false;
                 if (rb != null)
                 {
                     rb.isKinematic = true;
                 }
-                GetComponent<PlayerControllerOnline>().speed = 1;
+                GetComponent<PlayerControllerOnline>().speed /= 2;
             }
+        }
+        else
+        {
+            GameObject item = PhotonView.Find(itemID).gameObject;
+            GameObject parent = PhotonView.Find(playerId).transform.GetChild(1).GetChild(0).gameObject;
+            item.GetComponent<Collider>().enabled = false;
+            item.GetComponent<Rigidbody>().isKinematic = true;
+            item.transform.parent = parent.transform;
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
         }
     }
 
     [PunRPC]
-    private void Drop()
+    private void Drop(int itemID)
     {
         if (view.IsMine)
         {
-            inHandItem.transform.SetParent(null);
+            inHandItem.transform.parent = null;
             Rigidbody rb = inHandItem.GetComponent<Rigidbody>();
             inHandItem.GetComponent<Collider>().enabled = true;
             if (rb != null)
@@ -92,7 +104,14 @@ public class PlayerPickUpOnline : MonoBehaviourPunCallbacks
                 rb.isKinematic = false;
             }
             inHandItem = null;
-            GetComponent<PlayerControllerOnline>().speed = 2;
+            GetComponent<PlayerControllerOnline>().speed *= 2;
+        }
+        else
+        {
+            GameObject item = PhotonView.Find(itemID).gameObject;
+            item.transform.parent = null;
+            item.GetComponent<Collider>().enabled = true;
+            item.GetComponent<Rigidbody>().isKinematic = false;
         }
     }
 }

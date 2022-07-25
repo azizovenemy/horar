@@ -223,13 +223,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2450107953754826963, guid: d92e1465ea0071f409fb4397edd9934e, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450107953754826963, guid: d92e1465ea0071f409fb4397edd9934e, type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5490950126670735641, guid: d92e1465ea0071f409fb4397edd9934e, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5490950126670735641, guid: d92e1465ea0071f409fb4397edd9934e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.1871698
+      value: 12.37
       objectReference: {fileID: 0}
     - target: {fileID: 5490950126670735641, guid: d92e1465ea0071f409fb4397edd9934e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -237,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5490950126670735641, guid: d92e1465ea0071f409fb4397edd9934e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.19
+      value: 12.66
       objectReference: {fileID: 0}
     - target: {fileID: 5490950126670735641, guid: d92e1465ea0071f409fb4397edd9934e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -379,6 +387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1876053252}
   - component: {fileID: 1876053253}
+  - component: {fileID: 1876053254}
   m_Layer: 0
   m_Name: OnlineManager
   m_TagString: Untagged
@@ -413,3 +422,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 4561809681808596955, guid: 7b0f244ce9093b6448169cab487238f5, type: 3}
+--- !u!114 &1876053254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876053251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13e7f61c8d5ced4e91c728b0bc02897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickableItems:
+  - {fileID: 5490950126670735644, guid: d92e1465ea0071f409fb4397edd9934e, type: 3}
+  coordPickableItems:
+  - {x: 5, y: 5, z: 2}
+  - {x: 8, y: 5, z: 2}
