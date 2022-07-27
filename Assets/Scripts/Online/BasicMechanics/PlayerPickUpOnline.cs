@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon;
 using Photon.Pun;
 
-public class PlayerPickUpOnline : MonoBehaviourPunCallbacks//, IPunObservable
+public class PlayerPickUpOnline : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject pickUpUI;
@@ -42,19 +42,26 @@ public class PlayerPickUpOnline : MonoBehaviourPunCallbacks//, IPunObservable
         }
         if (inHandItem != null)
         {
+            if (inHandItem.transform.localPosition != Vector3.zero)
+            {
+                inHandItem.transform.localPosition = Vector3.zero;
+            }
             if (Input.GetKeyDown(KeyCode.R))
             {
                 view.RPC("Drop", RpcTarget.AllBuffered, inHandItem.GetComponent<PhotonView>().ViewID);
             }
         }
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward,
-            out hit, hitRange, pickableLayerMask))
+        if (inHandItem == null)
         {
-            pickUpUI.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward,
+                out hit, hitRange, pickableLayerMask))
             {
-                inHandItem = hit.collider.gameObject;
-                view.RPC("PickUp", RpcTarget.AllBuffered, inHandItem.GetComponent<PhotonView>().ViewID, view.ViewID);
+                pickUpUI.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    inHandItem = hit.collider.gameObject;
+                    view.RPC("PickUp", RpcTarget.AllBuffered, inHandItem.GetComponent<PhotonView>().ViewID, view.ViewID);
+                }
             }
         }
     }

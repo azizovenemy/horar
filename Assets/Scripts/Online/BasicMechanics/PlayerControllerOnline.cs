@@ -20,6 +20,7 @@ public class PlayerControllerOnline : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
         view = GetComponent<PhotonView>();
         playerBody = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;

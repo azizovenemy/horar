@@ -18,7 +18,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         MenuManager.instance.OpenMenuPanel("loading");
         PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.AutomaticallySyncScene = true;
     }
     public override void OnConnectedToMaster()
     {
