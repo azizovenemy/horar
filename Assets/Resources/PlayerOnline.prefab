@@ -251,6 +251,8 @@ MonoBehaviour:
   jumpForce: 5
   cam: {fileID: 4561809680341583324}
   speed: 5
+  timerText: {fileID: 8976811388633047791}
+  loadScenePanelUI: {fileID: 578167070091464214}
 --- !u!114 &6366014168733223461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,6 +380,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4561809681808596959}
     m_Modifications:
+    - target: {fileID: 3403602943690510296, guid: e03da956f89237b44bb97cf6a462444c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3403602944716146043, guid: e03da956f89237b44bb97cf6a462444c, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -478,3 +484,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3403602943690510296, guid: e03da956f89237b44bb97cf6a462444c, type: 3}
   m_PrefabInstance: {fileID: 3724526464897861470}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &578167070091464214 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4302664930490190152, guid: e03da956f89237b44bb97cf6a462444c, type: 3}
+  m_PrefabInstance: {fileID: 3724526464897861470}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8976811388633047791 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5702726406050424241, guid: e03da956f89237b44bb97cf6a462444c, type: 3}
+  m_PrefabInstance: {fileID: 3724526464897861470}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

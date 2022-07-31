@@ -12,6 +12,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] private Text errorText;        //ошибка когда что-то с фотоном (в отдельной панели)
     [SerializeField] private Text errorCreating;    //не введено название комнаты при создании
     [SerializeField] private Text errorConnecting;  //не введено название комнаты при подключении
+    [SerializeField] private int maxPlayers;
 
     private TypedLobby customLobby = new TypedLobby("customLobby", LobbyType.Default);
     void Start()
@@ -53,7 +54,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         if (roomNameCreating.text != "")
         {
-            PhotonNetwork.CreateRoom(roomNameCreating.text, new RoomOptions { MaxPlayers = 5 });
+            PhotonNetwork.CreateRoom(roomNameCreating.text, new RoomOptions { MaxPlayers = (byte)maxPlayers });
             roomNameCreating.text = "";
         }
         else

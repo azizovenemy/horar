@@ -1,23 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
-using Photon.Realtime;
 
-public class OnlineManagerWaitingRoom : MonoBehaviourPunCallbacks
+[RequireComponent(typeof(PhotonView))]
+public class OnlineManagerWaitingRoom : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private float timer;
 
-    [SerializeField] private int playersCount = 1;
+    private GameObject loadScenePanelUI;
+    private Text timerText;
+    private bool connecting;
+    private GameObject thisPlayer;
+    private PhotonView view;
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting && PhotonNetwork.IsMasterClient)
+        {
+            stream.SendNext(connecting);
+            stream.SendNext(timer);
+        }
+        else
+        {
+            connecting = (bool)stream.ReceiveNext();
+            timer = (float)stream.ReceiveNext();
+        }
+    }
+
     void Start()
     {
+        view = GetComponent<PhotonView>();
+        PhotonNetwork.AutomaticallySyncScene = true;
         Vector3 pos = new Vector3(Random.Range(-10, 10), 0.2f, Random.Range(-10, 10));
-        PhotonNetwork.Instantiate(playerPrefab.name, pos, Quaternion.identity);
+        thisPlayer = PhotonNetwork.Instantiate(playerPrefab.name, pos, Quaternion.identity);
+        timerText = thisPlayer.GetComponent<PlayerControllerOnline>().timerText;
+        loadScenePanelUI = thisPlayer.GetComponent<PlayerControllerOnline>().loadScenePanelUI;
     }
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+    private void Update()
     {
-        print("+");
-        playersCount++;
-        if (PhotonNetwork.IsMasterClient && playersCount >= 2) PhotonNetwork.LoadLevel(2);
+        if (connecting && timer <= 0)
+        {
+            PhotonNetwork.LoadLevel(2);
+            connecting = false;
+            return;
+        }
+        else if (connecting && timer > 0)
+        {
+            timer -= Time.deltaTime;
+            timerText.text = timer.ToString("F1");
+            return;
+        }
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers && PhotonNetwork.IsMasterClient)
+        {
+            loadScenePanelUI.SetActive(true);
+
+            if (Input.GetKey(KeyCode.M))
+            {
+                connecting = true;
+                view.RPC("ActivateTimer", RpcTarget.AllBuffered);
+            }
+        }
+        else
+        {
+            loadScenePanelUI.SetActive(false);
+            timerText.gameObject.SetActive(false);
+        }
+    }
+    [PunRPC]
+    public void ActivateTimer()
+    {
+        timerText.gameObject.SetActive(true);
     }
 }

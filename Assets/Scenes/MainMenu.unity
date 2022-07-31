@@ -883,6 +883,7 @@ MonoBehaviour:
   errorText: {fileID: 281664597}
   errorCreating: {fileID: 1893011791}
   errorConnecting: {fileID: 217998778}
+  maxPlayers: 2
 --- !u!4 &597343804
 Transform:
   m_ObjectHideFlags: 0
@@ -1436,7 +1437,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.83499146, y: -0.8350067}
+  m_AnchoredPosition: {x: 0.83499146, y: -0.835022}
   m_SizeDelta: {x: 21.7077, y: 21.7076}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &933949023
@@ -1761,7 +1762,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.83496094, y: -0.83491516}
+  m_AnchoredPosition: {x: 0.83496094, y: -0.8348999}
   m_SizeDelta: {x: 21.708, y: 21.708}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1097021785
@@ -2060,7 +2061,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.8348999, y: -0.83491516}
+  m_AnchoredPosition: {x: 0.8348999, y: -0.8348999}
   m_SizeDelta: {x: 21.708, y: 21.708}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1111104296

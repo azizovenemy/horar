@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerControllerOnline : MonoBehaviourPunCallbacks
 {
@@ -17,10 +18,11 @@ public class PlayerControllerOnline : MonoBehaviourPunCallbacks
     private PhotonView view;
 
     public float speed;
+    public Text timerText;
+    public GameObject loadScenePanelUI;
 
     private void Start()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
         view = GetComponent<PhotonView>();
         playerBody = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
